@@ -1,0 +1,52 @@
+USE [SMSDE]
+GO
+
+/****** Object:  Table [dbo].[messages]    Script Date: 3/13/2021 10:29:56 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[messages](
+	[messages_id] [int] IDENTITY(1,1) NOT NULL,
+	[datetime_created] [datetime] NULL,
+	[phone_to] [varchar](50) NULL,
+	[message] [varchar](100) NULL,
+ CONSTRAINT [PK_messages] PRIMARY KEY CLUSTERED 
+(
+	[messages_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+USE [SMSDE]
+GO
+
+/****** Object:  Table [dbo].[messages_sent]    Script Date: 3/13/2021 10:30:10 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[messages_sent](
+	[sent_id] [int] IDENTITY(1,1) NOT NULL,
+	[messages_id] [int] NULL,
+	[datetime_sent] [datetime] NULL,
+	[confirmation_code] [varchar](100) NULL,
+ CONSTRAINT [PK_messages_sent] PRIMARY KEY CLUSTERED 
+(
+	[sent_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[messages_sent]  WITH CHECK ADD  CONSTRAINT [FK_messages_sent_messages] FOREIGN KEY([messages_id])
+REFERENCES [dbo].[messages] ([messages_id])
+GO
+
+ALTER TABLE [dbo].[messages_sent] CHECK CONSTRAINT [FK_messages_sent_messages]
+GO
+
